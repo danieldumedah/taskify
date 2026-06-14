@@ -1,4 +1,4 @@
-const API = 'http://localhost:3001/api';
+const API = 'https://taskify-fwnj.vercel.app/api';
 
 // ─── State ──────────────────────────────────────────
 let tasks = [];
