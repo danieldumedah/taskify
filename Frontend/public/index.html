@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taskify — Get Things Done</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-mark">T</span>
+      <span class="brand-name">Taskify</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-filter="all">
+        <svg viewBox="0 0 24 24"><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
+        All Tasks
+        <span class="nav-badge" id="badge-all">0</span>
+      </button>
+      <button class="nav-item" data-filter="pending">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l3 3"/></svg>
+        Pending
+        <span class="nav-badge" id="badge-pending">0</span>
+      </button>
+      <button class="nav-item" data-filter="in-progress">
+        <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        In Progress
+        <span class="nav-badge" id="badge-inprogress">0</span>
+      </button>
+      <button class="nav-item" data-filter="completed">
+        <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        Completed
+        <span class="nav-badge" id="badge-completed">0</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-priority-section">
+      <p class="sidebar-section-label">By Priority</p>
+      <button class="priority-filter" data-priority="high">
+        <span class="dot high"></span> High
+      </button>
+      <button class="priority-filter" data-priority="medium">
+        <span class="dot medium"></span> Medium
+      </button>
+      <button class="priority-filter" data-priority="low">
+        <span class="dot low"></span> Low
+      </button>
+    </div>
+
+    <div class="sidebar-stats">
+      <div class="mini-stat">
+        <span class="mini-stat-num" id="stat-completed">0</span>
+        <span class="mini-stat-label">Done</span>
+      </div>
+      <div class="mini-stat">
+        <span class="mini-stat-num" id="stat-total">0</span>
+        <span class="mini-stat-label">Total</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="M16.5 16.5l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input type="text" class="search-input" id="searchInput" placeholder="Search tasks…" />
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="view-toggle">
+          <button class="view-btn active" id="gridViewBtn" title="Grid view">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </button>
+          <button class="view-btn" id="listViewBtn" title="List view">
+            <svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <button class="btn-add" id="openModalBtn">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          New Task
+        </button>
+      </div>
+    </header>
+
+    <!-- Page title bar -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title" id="pageTitle">All Tasks</h1>
+        <p class="page-sub" id="pageSub">Manage and track your work</p>
+      </div>
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-label">
+          <span id="progressText">0% complete</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task grid/list -->
+    <div class="task-container grid-view" id="taskContainer">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">📋</div>
+        <h3>No tasks yet</h3>
+        <p>Create your first task to get started</p>
+        <button class="btn-add" onclick="document.getElementById('openModalBtn').click()">
+          + Add a Task
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Modal overlay -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" role="dialog" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">New Task</h2>
+        <button class="modal-close" id="closeModalBtn" aria-label="Close">
+          <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <form class="modal-body" id="taskForm" novalidate>
+        <input type="hidden" id="taskId" />
+
+        <div class="form-group">
+          <label class="form-label" for="taskTitle">Task Title <span class="required">*</span></label>
+          <input type="text" id="taskTitle" class="form-input" placeholder="What needs to be done?" maxlength="120" />
+          <span class="field-error" id="titleError"></span>
+          <span class="char-count" id="titleCount">0 / 120</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="taskDesc">Description</label>
+          <textarea id="taskDesc" class="form-input form-textarea" placeholder="Add details, context, or notes…" rows="3"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="taskPriority">Priority</label>
+            <div class="select-wrap">
+              <select id="taskPriority" class="form-input form-select">
+                <option value="low">🟢 Low</option>
+                <option value="medium" selected>🟡 Medium</option>
+                <option value="high">🔴 High</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="taskStatus">Status</label>
+            <div class="select-wrap">
+              <select id="taskStatus" class="form-input form-select">
+                <option value="pending">Pending</option>
+                <option value="in-progress">In Progress</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="taskCategory">Category</label>
+            <input type="text" id="taskCategory" class="form-input" placeholder="e.g. Work, Personal, Health" maxlength="50" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="taskDue">Due Date</label>
+            <input type="date" id="taskDue" class="form-input" />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-ghost" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn-primary" id="submitBtn">Create Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirm Modal -->
+  <div class="modal-overlay" id="deleteOverlay">
+    <div class="modal modal-sm" role="dialog">
+      <div class="delete-modal-body">
+        <div class="delete-icon">🗑️</div>
+        <h3>Delete Task?</h3>
+        <p>This action cannot be undone.</p>
+        <div class="delete-actions">
+          <button class="btn-ghost" id="cancelDeleteBtn">Cancel</button>
+          <button class="btn-danger" id="confirmDeleteBtn">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

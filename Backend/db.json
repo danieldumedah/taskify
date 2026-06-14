@@ -1,0 +1,15 @@
+{
+  "tasks": [
+    {
+      "id": "6f06bc54-63d8-413e-ac25-fe3c1272c5a2",
+      "title": "Buy groceries",
+      "description": "",
+      "priority": "high",
+      "category": "personal",
+      "status": "pending",
+      "dueDate": null,
+      "createdAt": "2026-06-14T02:05:30.414Z",
+      "updatedAt": "2026-06-14T02:05:30.415Z"
+    }
+  ]
+}
