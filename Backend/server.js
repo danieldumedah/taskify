@@ -9,7 +9,10 @@ const PORT = process.env.PORT || 3001;
 const DB_PATH = path.join(__dirname, 'db.json');
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://taskify-liard-tau.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+}));
 app.use(express.json());
 
 // Initialize DB
