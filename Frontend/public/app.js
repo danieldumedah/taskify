@@ -1,4 +1,4 @@
-const API = const API = 'https://taskify-fwnj.vercel.app/api';
+const API = 'https://taskify-fwnj.vercel.app/api';
 
 // ─── State ──────────────────────────────────────────
 let tasks = [];
